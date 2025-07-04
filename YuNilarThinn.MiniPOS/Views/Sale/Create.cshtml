@@ -1,0 +1,104 @@
+﻿@model SaleModels
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Customer</label>
+        <select asp-for="Customers" name="CustomerCode"
+        class="form-control">
+            @foreach(var c in Model.Customers.Customers)
+            {
+                <option value="@c.CustomerCode">@c.CustomerName</option>
+
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Customer</label>
+        <select id="productSelect" class="form-control">
+            @foreach (var c in Model.Products.Products)
+            {
+                <option value="@c.ProductId">@c.Name</option>
+
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" id="qtyInput" class="form-control" value="1" />
+    </div>
+    <button type="button" class="btn btn-success mb-2" onclick="addItem()">Add Item</button>
+    <table class="table table-bordered" id="cardTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <input type="hidden" name="CartItems" id="cartData" />
+    <button type="submit" class="btn btn-primary">Finalize Sale</button>
+</form>
+
+@section Scripts {
+    <script>
+        const cart = [];
+
+        const productPrice = {
+        @foreach (var p in Model.Products.Products)
+        {
+            @: "@p.ProductId": @p.Price,
+        }
+        };
+
+        function addItem() {
+            const productSelect = document.getElementById("productSelect");
+            const productId = parseInt(productSelect.value);
+            const productName = productSelect.selectedOptions[0].text;
+            const qty = parseInt(document.getElementById("qtyInput").value || "1");
+            const price = productPrice[productId];
+
+            const item = {
+                ProductID: productId,
+                ProductName: productName,
+                Qty: qty,
+                Price: price,
+                Amount: price * qty
+            };
+
+            cart.push(item);
+            renderCart();
+            updateCartHiddenInput();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+            updateCartHiddenInput();
+        }
+
+        function renderCart() {
+            const tbody = document.querySelector("#cardTable tbody");
+            tbody.innerHTML = "";
+            cart.forEach((item, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.ProductName}</td>
+                        <td>${item.Qty}</td>
+                        <td>${item.Price}</td>
+                        <td>${item.Amount}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(${index})">Remove</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function updateCartHiddenInput() {
+            document.getElementById("cartData").value = JSON.stringify(cart);
+        }
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿@model YuNilarThinn.MiniPOS.Models.InvoiceModel
+
+<h2>Edit Invoice</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="SalesInvoiceId" />
+
+    <div class="mb-3">
+        <label asp-for="SalesDate" class="form-label">Date</label>
+        <input asp-for="SalesDate" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CustomerId" class="form-label">Customer ID</label>
+        <input asp-for="CustomerId" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Remark" class="form-label">Remark</label>
+        <input asp-for="Remark" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TotalAmount" class="form-label">Total</label>
+        <input asp-for="TotalAmount" class="form-control" />
+    </div>
+
+    <h4>Items</h4>
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.InvoiceItems.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="@Model.InvoiceItems[i].ProductId" class="form-control" />
+                    </td>
+                    <td>
+                        <input asp-for="@Model.InvoiceItems[i].Qty" class="form-control" />
+                    </td>
+                    <td>
+                        <input asp-for="@Model.InvoiceItems[i].Price" class="form-control" />
+                    </td>
+                    <td>
+                        <input asp-for="@Model.InvoiceItems[i].Amount" class="form-control" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

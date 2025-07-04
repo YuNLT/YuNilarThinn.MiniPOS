@@ -1,0 +1,54 @@
+﻿@model CustomerListModel
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td typeof="hidden">
+
+                </td>
+                <th>
+                    Customer Code
+                </th>
+                <th>
+                    Customer Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Phone No
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Customers)
+            {
+                <tr>
+                    <td typeof="hidden">
+                        @item.CustomerId
+                    </td>
+                    <td>
+                        @item.CustomerCode
+                    </td>
+                    <td>
+                        @item.CustomerName
+                    </td>
+                    <td>
+                        @item.Address
+                    </td>
+                    <td>
+                        @item.PhoneNo
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Customer" asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-controller="Customer" asp-action="Create" class="btn btn-success">Create</a>
+</div>
