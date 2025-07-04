@@ -12,7 +12,7 @@ A lightweight Point of Sale (POS) system built with **ASP.NET Core 8** using the
 - Entity Framework Core 8 for ORM
 - MVC Architecture
 - Clean separation of concerns
-- Responsive front-end with Bootstrap or other CSS frameworks (if applicable)
+- Responsive front-end with Bootstrap and MVC tag helpers
 
 ---
 
